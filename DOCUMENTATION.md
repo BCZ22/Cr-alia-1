@@ -813,3 +813,35 @@ CREATE TABLE ai_prompts (
 CREATE INDEX idx_ai_prompts_user ON ai_prompts(user_id);
 CREATE INDEX idx_ai_prompts_category ON ai_prompts(category);
 CREATE INDEX idx_ai_prompts
+## 7. Intégrations avec les API sociales
+
+Pour offrir une expérience fluide, Créalia intègre directement les API des principales plateformes sociales.
+
+### Plateformes supportées
+- **YouTube Data API** → publication sur YouTube Shorts
+- **TikTok API** → upload direct et gestion de métadonnées
+- **Instagram Graph API** → publication de Reels
+- **Facebook Graph API** → publication croisée
+- **Twitter/X API** → publication de clips courts
+- **LinkedIn API** → publication B2B (teasers, webinars)
+
+### Fonctionnalités
+- Authentification OAuth2 par utilisateur
+- Planification de posts (scheduler interne)
+- Suivi des statistiques (likes, vues, partages) récupérées depuis les APIs
+- Multi-compte (un utilisateur peut connecter plusieurs chaînes/pages)
+
+### Flux de données
+1. L’utilisateur connecte son compte social via OAuth
+2. La vidéo générée est stockée sur S3
+3. L’API Créalia envoie la vidéo + métadonnées à la plateforme choisie
+4. Les métriques (vues, engagement) sont synchronisées dans le dashboard
+
+### Schéma d’intégration
+```mermaid
+flowchart LR
+    A[Créalia] -->|OAuth2| B((YouTube))
+    A -->|OAuth2| C((TikTok))
+    A -->|OAuth2| D((Instagram))
+    A -->|OAuth2| E((Twitter/X))
+    A -->|OAuth2| F((LinkedIn))
